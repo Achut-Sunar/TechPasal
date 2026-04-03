@@ -42,9 +42,10 @@ namespace TechPasalWebForms.Account
 
             // Validate ReturnUrl to prevent open redirect attacks
             string returnUrl = Request.QueryString["ReturnUrl"];
-            if (!IsLocalUrl(returnUrl))
-                returnUrl = "~/Default.aspx";
-            Response.Redirect(returnUrl);
+            if (IsLocalUrl(returnUrl))
+                Response.Redirect(returnUrl);
+            else
+                Response.Redirect("~/Default.aspx");
         }
 
         private static bool IsLocalUrl(string url)
