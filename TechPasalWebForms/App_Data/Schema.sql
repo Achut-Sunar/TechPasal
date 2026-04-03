@@ -60,10 +60,13 @@ CREATE TABLE Coupons (
     IsActive BIT NOT NULL DEFAULT 1
 );
 
--- Seed admin user (password: Admin@123)
+-- Seed admin user
+-- NOTE: The placeholder hash below is intentionally invalid. Run the application's
+-- Register endpoint or use UserRepository.HashPassword("Admin@123") to generate a
+-- valid PBKDF2 hash and UPDATE this row before first login.
 IF NOT EXISTS (SELECT 1 FROM Users WHERE Email='admin@techpasal.com')
 INSERT INTO Users (Username, Email, PasswordHash, Role) VALUES 
-('Admin', 'admin@techpasal.com', 'PBKDF2$10000$Seed+AdminSalt==$/placeholder+do+reset==', 'Admin');
+('Admin', 'admin@techpasal.com', 'PBKDF2$10000$PLACEHOLDER$RESET_REQUIRED', 'Admin');
 
 -- Seed sample products
 IF NOT EXISTS (SELECT 1 FROM Products)

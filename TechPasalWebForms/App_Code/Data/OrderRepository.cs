@@ -44,7 +44,9 @@ namespace TechPasalWebForms.Data
                             var scmd = new SqlCommand("UPDATE Products SET Stock = Stock - @Qty WHERE ProductId = @PId AND Stock >= @Qty", conn, tran);
                             scmd.Parameters.AddWithValue("@Qty", detail.Quantity);
                             scmd.Parameters.AddWithValue("@PId", detail.ProductId);
-                            scmd.ExecuteNonQuery();
+                            int rowsAffected = scmd.ExecuteNonQuery();
+                            if (rowsAffected == 0)
+                                throw new InvalidOperationException(string.Format("Insufficient stock for product ID {0}.", detail.ProductId));
                         }
 
                         tran.Commit();
